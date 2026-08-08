@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ConferenceCheckInSystem.Models.AttendeeVisit>
+@{
+    ViewData["Title"] = "Monitoring Dashboard";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Attendee Monitoring Dashboard</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Register New Attendee</a>
+</div>
+
+<!-- Search Form -->
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control" placeholder="Search by ticket number, name, organization, or event..." />
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+        <a asp-action="Index" class="btn btn-outline-danger">Reset</a>
+    </div>
+</form>
+
+<div class="table-responsive bg-white shadow-sm rounded">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th>Ticket No.</th>
+                <th>Attendee</th>
+                <th>Organization</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No attendees found.</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="fw-bold">@item.TicketNumber</td>
+                        <td>@item.FirstName @item.LastName</td>
+                        <td>@item.Organization</td>
+                        <td>@item.CheckInTime.ToString("yyyy-MM-dd hh:mm tt")</td>
+                        <td>@(item.CheckOutTime.HasValue ? item.CheckOutTime.Value.ToString("yyyy-MM-dd hh:mm tt") : "-")</td>
+                        <td>
+                            @if (item.Status == "Present")
+                            {
+                                <span class="badge bg-success">Present</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Left Event</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">Edit</a>
+                                @if (item.Status == "Present")
+                                {
+                                    <a asp-action="Checkout" asp-route-id="@item.Id" class="btn btn-outline-warning">Check-Out</a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

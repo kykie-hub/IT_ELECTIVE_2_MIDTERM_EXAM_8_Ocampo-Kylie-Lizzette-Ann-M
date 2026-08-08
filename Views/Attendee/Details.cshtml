@@ -1,0 +1,57 @@
+﻿@model ConferenceCheckInSystem.Models.AttendeeVisit
+@{
+    ViewData["Title"] = "Attendee Details";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h4>Attendee Information - @Model.TicketNumber</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Full Name</dt>
+                    <dd class="col-sm-8">@Model.FirstName @Model.LastName</dd>
+
+                    <dt class="col-sm-4">Company / School</dt>
+                    <dd class="col-sm-8">@Model.Organization</dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">@Model.Email</dd>
+
+                    <dt class="col-sm-4">Contact Number</dt>
+                    <dd class="col-sm-8">@Model.ContactNumber</dd>
+
+                    <dt class="col-sm-4">Event Name</dt>
+                    <dd class="col-sm-8">@Model.EventName</dd>
+
+                    <dt class="col-sm-4">Check-In Time</dt>
+                    <dd class="col-sm-8">@Model.CheckInTime.ToString("F")</dd>
+
+                    <dt class="col-sm-4">Check-Out Time</dt>
+                    <dd class="col-sm-8">@(Model.CheckOutTime.HasValue ? Model.CheckOutTime.Value.ToString("F") : "N/A")</dd>
+
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.Status == "Present")
+                        {
+                            <span class="badge bg-success">Present</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Left Event</span>
+                        }
+                    </dd>
+
+                    <dt class="col-sm-4">Notes</dt>
+                    <dd class="col-sm-8">@(string.IsNullOrEmpty(Model.Notes) ? "None" : Model.Notes)</dd>
+                </dl>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit Details</a>
+            </div>
+        </div>
+    </div>
+</div>

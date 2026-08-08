@@ -1,0 +1,30 @@
+﻿@model ConferenceCheckInSystem.Models.AttendeeVisit
+@{
+    ViewData["Title"] = "Confirm Check-Out";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-warning shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h4>Confirm Check-Out</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Are you sure you want to record departure for this attendee?</p>
+                <ul class="list-group list-group-flush mb-3">
+                    <li class="list-group-item"><strong>Ticket Number:</strong> @Model.TicketNumber</li>
+                    <li class="list-group-item"><strong>Name:</strong> @Model.FirstName @Model.LastName</li>
+                    <li class="list-group-item"><strong>Organization:</strong> @Model.Organization</li>
+                    <li class="list-group-item"><strong>Check-In Time:</strong> @Model.CheckInTime.ToString("f")</li>
+                </ul>
+                <form asp-action="Checkout" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-warning">Confirm Check-Out</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
